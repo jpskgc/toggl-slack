@@ -1,10 +1,15 @@
-.PHONY: deps clean build
+.PHONY: build clean deploy gomodgen
 
-deps:
-	go get -u ./...
+build: gomodgen
+	export GO111MODULE=on
+	env GOOS=linux go build -ldflags="-s -w" -o bin/toggl toggl/main.go
 
 clean:
-	rm -rf ./hello-world/hello-world
+	rm -rf ./bin ./vendor Gopkg.lock
 
-build:
-	GOOS=linux GOARCH=amd64 go build -gcflags='-N -l' -o hello-world/hello-world ./hello-world
+deploy: clean build
+	sls deploy --verbose --aws-profile default
+
+gomodgen:
+	chmod u+x gomod.sh
+	./gomod.sh
