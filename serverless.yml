@@ -62,7 +62,7 @@ functions:
       - http:
           path: toggl
           method: get
-      - schedule: cron(0 8 ? * TUE-FRI *)
+      - schedule: cron(0 23 ? * TUE-FRI *)
     environment:
       toggl_api_token: ${ssm:toggl_api_token~true}
       toggl_user_agent: ${ssm:toggl_user_agent~true}
