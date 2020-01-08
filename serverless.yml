@@ -68,7 +68,7 @@ functions:
       toggl_user_agent: ${ssm:toggl_user_agent~true}
       toggl_workspace_id: '3862256'
       slack_url: ${ssm:slack_url~true}
-      slack_channel_name: 'jp_test'
+      slack_channel_name: 'times_jp'
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
