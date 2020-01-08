@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -83,7 +84,12 @@ func GetTogglReports() []byte {
 
 	client := &http.Client{Timeout: time.Duration(10) * time.Second}
 
-	yesterday := time.Now().AddDate(0, 0, -1).Format("2006-01-02")
+	l, err := time.LoadLocation("Asia/Tokyo")
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	yesterday := time.Now().In(l).AddDate(0, 0, -1).Format("2006-01-02")
 
 	req, err := http.NewRequest("GET", "https://toggl.com/reports/api/v2/summary", nil)
 	if err != nil {
@@ -97,6 +103,7 @@ func GetTogglReports() []byte {
 	q.Add("user_agent", os.Getenv("toggl_user_agent"))
 	q.Add("workspace_id", os.Getenv("toggl_workspace_id"))
 	q.Add("since", yesterday)
+	q.Add("until", yesterday)
 	req.URL.RawQuery = q.Encode()
 
 	resp, err := client.Do(req)
