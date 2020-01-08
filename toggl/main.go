@@ -89,7 +89,7 @@ func GetTogglReports() []byte {
 		fmt.Println(err.Error())
 	}
 
-	yesterday := time.Now().In(l).AddDate(0, 0, -1).Format("2006-01-02")
+	yesterday := fmt.Sprintf("%sT00%%3A00%%3A00%%2B09%%3A00", time.Now().In(l).AddDate(0, 0, -1).Format("2006-01-02"))
 
 	req, err := http.NewRequest("GET", "https://toggl.com/reports/api/v2/summary", nil)
 	if err != nil {
